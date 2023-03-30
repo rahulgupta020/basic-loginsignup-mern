@@ -1,0 +1,76 @@
+
+/* Footer Page */
+.footerline{
+    text-align: center;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    background-color: #000000;
+    color: #fff;
+}
+
+/* Login Page */
+.passwordIcon{
+    background-color: #000000;
+}
+.loginButton{
+    background-color: #000000;
+    color: #fff;
+    margin: 0 auto;
+    display: block;
+}
+.loginPage{
+    width: 40%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 200px;
+    padding: 50px;
+}
+
+/* Signup Page */
+.passwordIcon{
+    background-color: #000000;
+}
+.signupButton{
+    background-color: #000000;
+    color: #fff;
+    margin: 0 auto;
+    display: block;
+}
+.signupPage{
+    width: 40%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;
+    padding: 50px;
+}
+
+/* Home Page */
+.homePage{
+    width: 50;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px;
+    text-align: center;
+}
+
+@media screen and (max-width: 990px) {
+    .loginPage{
+        width: 70%;
+    }
+    .signupPage{
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .loginPage{
+        width: 90%;
+    }
+    .signupPage{
+        width: 90%;
+    }
+}
