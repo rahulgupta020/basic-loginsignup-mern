@@ -4,6 +4,7 @@ import validator from 'validator';
 import { BiShow, BiHide } from "react-icons/bi";
 import { IconContext } from "react-icons/lib";
 import { Link, useNavigate } from "react-router-dom";
+import { Service } from "../providers/service";
 
 const Login = () => {
 
@@ -42,14 +43,28 @@ const Login = () => {
             alert("Please Enter Details")
         }
         else {
-            navigate("/")
+            const payload = { email, password }
+            Service.login(payload)
+            .then((res) => {
+                console.log("res = ", res);
+                localStorage.setItem("x-access-token", res.token)
+                localStorage.setItem("email", res.email)
+                navigate("/")
+            })
+            .catch((error)=>{
+                console.log("error = ", error);
+                alert("Email & Password Not Matched")
+            })
+
+
+            // navigate("/")
         }
     }
 
     return (
         <>
             <div className="loginPage">
-                <h2 style={{textAlign:"center"}}>Login Page</h2>
+                <h2 style={{ textAlign: "center" }}>Login Page</h2>
                 <Form>
                     <FormGroup>
                         <Label for="email">Email</Label>
@@ -88,14 +103,14 @@ const Login = () => {
                         </InputGroup>
                     </FormGroup>
 
-                </Form>
+                    <div style={{ textAlign: "center", marginBottom: "15px" }}><Link to="/forgot">Forgot Password</Link></div>
+                    {
+                        (email !== "" && emailError) || (password !== "" && passwordError) ?
+                            <Button className="loginButton" disabled>LOGIN</Button> :
+                            <Button className="loginButton" onClick={handleLogin}>LOGIN</Button>
+                    }
 
-                <div style={{textAlign:"center", marginBottom:"15px"}}><Link to="/forgot">Forgot Password</Link></div>
-                {
-                    (email !== "" && emailError) || (password !== "" && passwordError) ?
-                        <Button className="loginButton" disabled>LOGIN</Button> :
-                        <Button className="loginButton" onClick={handleLogin}>LOGIN</Button>
-                }
+                </Form>
 
             </div>
         </>

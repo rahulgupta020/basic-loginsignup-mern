@@ -4,6 +4,10 @@ import validator from 'validator';
 import { BiShow, BiHide } from "react-icons/bi";
 import { IconContext } from "react-icons/lib";
 import { Link, useNavigate } from "react-router-dom";
+import { HASH_SALT } from "../constants/defaultValues";
+import { Service } from "../providers/service";
+// import crypto from "crypto"
+const crypto = require('crypto');
 
 const Signup = () => {
 
@@ -18,7 +22,7 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmpassword, setConfirmpassword] = useState("");
-    
+
     const [showhideIcon, setShowhideIcon] = useState(false);
     const [showhideIcon1, setShowhideIcon1] = useState(false);
 
@@ -51,7 +55,7 @@ const Signup = () => {
     }
     const handleConfirmpassword = (event) => {
         setConfirmpassword(event.target.value)
-        if(event.target.value === password){
+        if (event.target.value === password) {
             setConfirmpasswordError(false)
         } else {
             setConfirmpasswordError(true)
@@ -68,21 +72,39 @@ const Signup = () => {
     }
 
     const handleSignup = () => {
-        if (name ==="" || email === "" || password === "" || confirmpassword ==="") {
+        if (name === "" || email === "" || password === "" || confirmpassword === "") {
             alert("Please Enter Details")
         }
         else {
-            navigate("/login")
+            const hash = crypto
+                .createHmac("sha512", HASH_SALT)
+                .update(password)
+                .digest("hex");
+            const payload = { name, email, password: hash }
+            Service.signup(payload)
+                .then((res) => {
+                    console.log(res);
+                    localStorage.setItem("x-access-token", res.token)
+                    localStorage.setItem("name", res.name)
+                    localStorage.setItem("email", res.email)
+                    navigate("/login")
+                })
+                .catch((error) => {
+                    console.log(error)
+                    alert("Some Error Occured!!!")
+                })
+
+            // navigate("/login")
         }
     }
 
     return (
         <>
             <div className="signupPage">
-                <h2 style={{textAlign:"center"}}>Sign Up</h2>
+                <h2 style={{ textAlign: "center" }}>Sign Up</h2>
                 <Form>
 
-                <FormGroup>
+                    <FormGroup>
                         <Label for="name">Name</Label>
                         <Input
                             type="text"
@@ -156,13 +178,13 @@ const Signup = () => {
                         </InputGroup>
                     </FormGroup>
 
-                </Form>
+                    {
+                        (name !== "" && nameError) || (email !== "" && emailError) || (password !== "" && passwordError) || (confirmpassword !== "" && confirmpasswordError) ?
+                            <Button className="signupButton" disabled>SIGN UP</Button> :
+                            <Button className="signupButton" onClick={handleSignup}>SIGN UP</Button>
+                    }
 
-                {
-                    (name !== "" && nameError) || (email !== "" && emailError) || (password !== "" && passwordError) || (confirmpassword !== "" && confirmpasswordError) ?
-                        <Button className="signupButton" disabled>SIGN UP</Button> :
-                        <Button className="signupButton" onClick={handleSignup}>SIGN UP</Button>
-                }
+                </Form>
 
             </div>
         </>
