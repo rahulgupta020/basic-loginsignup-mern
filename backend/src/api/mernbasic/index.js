@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { schema } from "./model";
-import { signupData, loginData } from "./controller";
+import { signupData, loginData, signupAllData } from "./controller";
 const { name, email, password } = schema.tree;
 import { middleware as body } from "bodymen";
 
@@ -18,6 +18,10 @@ router.post("/signup",
 router.post("/login",
     body({email, password}),
     loginData
+)
+
+router.get("/signupall/:id",
+    signupAllData
 )
 
 

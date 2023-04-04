@@ -46,13 +46,12 @@ const Login = () => {
             const payload = { email, password }
             Service.login(payload)
             .then((res) => {
-                console.log("res = ", res);
                 localStorage.setItem("x-access-token", res.token)
                 localStorage.setItem("email", res.email)
+                localStorage.setItem("_id", res._id)
                 navigate("/")
             })
             .catch((error)=>{
-                console.log("error = ", error);
                 alert("Email & Password Not Matched")
             })
 

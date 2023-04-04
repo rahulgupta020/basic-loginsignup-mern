@@ -26,17 +26,31 @@ export const loginData = async (req, res, next) => {
         .update(req.body.password)
         .digest("hex");
 
-        const loginUser = await signupModel.findOne({ email: req.body.email })
-        if (loginUser){
-            const passwordCheck = hash === loginUser.password
-            if(passwordCheck){
-                res.send(loginUser)
-            }
-            else{
-                res.status(400).json({ error: "password doesn't match" });
-            }
+    const loginUser = await signupModel.findOne({ email: req.body.email })
+    if (loginUser) {
+        const passwordCheck = hash === loginUser.password
+        if (passwordCheck) {
+            res.send(loginUser)
         }
-        else{
-            res.status(400).json({ error: "User doesn't exist" });
+        else {
+            res.status(400).json({ error: "password doesn't match" });
         }
+    }
+    else {
+        res.status(400).json({ error: "User doesn't exist" });
+    }
 }
+
+export const signupAllData = async (req, res, next) => {
+    console.log("/signupall Hitted...");
+    try {
+        const _id = req.params.id
+        console.log(_id);
+        const signupallUser = await signupModel.findById(_id);
+        res.status(200).send(signupallUser)
+    }
+    catch(e){
+        res.status(500).send(e);
+    }
+}
+

@@ -35,13 +35,26 @@ export const Service = {
                 .post("login/", payload)
                 .then(function (response) {
                     resolve(response.data)
-                    console.log("response.data = ", response.data)
                 })
                 .catch(function (error) {
                     reject(error);
-                    console.log("error = ", error);
                 });
         });
     },
+
+    signupall: function (id){
+        console.log(id);
+        return new Promise(function (resolve, reject){
+            const axiosInstance = createInstance();
+            axiosInstance
+            .get(`signupall/${id}`)
+            .then(function (response){
+                resolve(response.data)
+            })
+            .catch(function (error){
+                reject(error)
+            });
+        });
+    }
 
 }
