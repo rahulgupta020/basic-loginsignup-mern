@@ -46,9 +46,9 @@ const Login = () => {
             const payload = { email, password }
             Service.login(payload)
             .then((res) => {
-                localStorage.setItem("x-access-token", res.token)
-                localStorage.setItem("email", res.email)
-                localStorage.setItem("_id", res._id)
+                localStorage.setItem("x-access-token", JSON.stringify(res.token))
+                localStorage.setItem("user", JSON.stringify(res.loginUser))
+                localStorage.setItem("_id", JSON.stringify(res.loginUser._id))
                 navigate("/")
             })
             .catch((error)=>{

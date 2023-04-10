@@ -6,7 +6,8 @@ const createInstance = function () {
         baseURL: baseApiUrl,
         headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("x-access-token"),
+            // Authorization: "Bearer " + localStorage.getItem("x-access-token"),
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("x-access-token"))}`,
         },
     });
     return axiosInstance;

@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react"
 import { Button, Table } from "reactstrap"
 import { Service } from "../providers/service"
+// import re
 
 const Home = () => {
 
     const [signupalldata, setSignupalldata] = useState("");
 
+    const removeQuotes = string => string.replace(/"(.+)"/g, "$1")
+
     useEffect(() => {
         let id = localStorage.getItem("_id")
-        // console.log(id);
+        id = removeQuotes(id)
+        console.log(id);
         Service.signupall(id)
             .then((response) => {
                 setSignupalldata(response)
-            }, [])
+            })
             .catch((error) => {
                 alert("Something went wrong");
             })
-    })
+    }, [])
+    console.log(signupalldata);
 
     return (
         <>
@@ -49,10 +54,10 @@ const Home = () => {
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Email</th>
+                            {/* <th>Email</th>
                             <th>Mobile Number</th>
                             <th>Gender</th>
-                            <th>Password</th>
+                            <th>Password</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -66,10 +71,18 @@ const Home = () => {
                             </tr>
                         }) } */}
 
-                        {
+                        {/* {
                             Object.entries(signupalldata).map(([key, value]) => (
                                 <tr>
                                     <td>{value}</td>
+                                </tr>
+                            ))
+                        } */}
+
+                        {
+                            Object.keys(signupalldata).map((item, i) => (
+                                <tr>
+                                    <td>{signupalldata[item]}</td>
                                 </tr>
                             ))
                         }
